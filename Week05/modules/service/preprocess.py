@@ -1,5 +1,6 @@
 from faker import Faker
 from .queries import Queries
+from random import randint
 
 
 def init_tables(queries: Queries):
@@ -9,7 +10,11 @@ def init_tables(queries: Queries):
 
 def populate(queries: Queries):
     fake = Faker()
-    for i in range(10):
-        data = fake.name(), fake.address(), fake.text()
+    print('Populating...')
+    for i in range(100000):
+        if i % 10000 == 0 and i > 0:
+            print('Created {} customers.'.format(i))
+        data = fake.name(), fake.address(), randint(14, 80), fake.text()
         queries.add_customer_btree(*data)
         queries.add_customer_hash(*data)
+    print('Done!')
