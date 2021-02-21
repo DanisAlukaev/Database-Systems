@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  database:
+    container_name: database
+    build: .
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: "lab5-customers"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    volumes:
+      - database:/var/lib/postgresql/lab5
+
+
+volumes:
+  database:
