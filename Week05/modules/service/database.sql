@@ -1,17 +1,17 @@
 CREATE TABLE IF NOT EXISTS customer_btree
 (
-    ID      SERIAL PRIMARY KEY NOT NULL,
-    Name    TEXT               NOT NULL,
-    Address TEXT               NOT NULL,
-    Age     INT                NOT NULL,
-    Review  TEXT
+    id      SERIAL PRIMARY KEY NOT NULL,
+    name    TEXT               NOT NULL,
+    address TEXT               NOT NULL,
+    age     INT                NOT NULL,
+    review  TEXT
 );
 
 CREATE TABLE IF NOT EXISTS customer_hash
 (
-    ID      SERIAL PRIMARY KEY NOT NULL,
-    Name    TEXT               NOT NULL,
-    Address TEXT               NOT NULL,
-    Age     INT                NOT NULL,
-    Review  TEXT
+    id      SERIAL PRIMARY KEY NOT NULL,
+    name    TEXT               NOT NULL,
+    address TEXT               NOT NULL,
+    age     INT                NOT NULL,
+    review  TEXT
 );

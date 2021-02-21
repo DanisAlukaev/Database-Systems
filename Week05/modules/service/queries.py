@@ -2,16 +2,18 @@ import os
 
 
 class Queries:
-    SELECT_ALL_BTREE = "SELECT * FROM customer_btree"
-    SELECT_ALL_HASH = "SELECT * FROM customer_hash"
-    ADD_CUSTOMER_BTREE = "INSERT INTO customer_btree(Name, Address, Age, Review) VALUES (%s, %s, %s, %s);"
-    ADD_CUSTOMER_HASH = "INSERT INTO customer_hash(Name, Address, Age, Review) VALUES (%s, %s, %s, %s);"
-    SELECT_ADULTS_BTREE = "SELECT * FROM customer_btree WHERE Age >= 18"
-    SELECT_ADULTS_HASH = "SELECT * FROM customer_hash WHERE Age >= 18"
-    CREATE_INDEX_BTREE = "CREATE INDEX ON customer_btree (Age)"
-    CREATE_INDEX_HASH = "CREATE INDEX ON customer_hash (Age)"
-    ANALYZE_BTREE = "EXPLAIN ANALYZE SELECT * FROM customer_btree WHERE Age >= 18 and Age <= 30"
-    ANALYZE_HASH = "EXPLAIN ANALYZE SELECT * FROM customer_hash WHERE Age >= 18 and Age <= 30"
+    SELECT_ALL_BTREE = "SELECT * FROM customer_btree;"
+    SELECT_ALL_HASH = "SELECT * FROM customer_hash;"
+    ADD_CUSTOMER_BTREE = "INSERT INTO customer_btree(name, address, age, review) VALUES (%s, %s, %s, %s);"
+    ADD_CUSTOMER_HASH = "INSERT INTO customer_hash(name, address, age, review) VALUES (%s, %s, %s, %s);"
+    INDEX_BTREE_AGE = "CREATE INDEX ON customer_btree USING BTREE (age);"
+    INDEX_HASH_AGE = "CREATE INDEX ON customer_hash USING HASH (age);"
+    INDEX_BTREE_NAME = "CREATE INDEX ON customer_btree USING BTREE (name);"
+    INDEX_HASH_NAME = "CREATE INDEX ON customer_hash USING HASH (name);"
+    ANALYZE_BTREE_AGE = "EXPLAIN ANALYZE SELECT * FROM customer_btree WHERE age >= 18 and age <= 30;"
+    ANALYZE_HASH_AGE = "EXPLAIN ANALYZE SELECT * FROM customer_hash WHERE age >= 18 and age <= 30;"
+    ANALYZE_BTREE_NAME = "EXPLAIN ANALYZE SELECT * FROM customer_btree WHERE name ~ 'A.+';"
+    ANALYZE_HASH_NAME = "EXPLAIN ANALYZE SELECT * FROM customer_hash WHERE name ~ 'A.+';"
 
     def __init__(self, connection_db):
         self.connection_db = connection_db
@@ -48,40 +50,54 @@ class Queries:
                 args = name, address, age, review
                 cursor.execute(command, args)
 
-    def select_adults_btree(self):
+    def index_btree_age(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
-                command = self.SELECT_ADULTS_BTREE
+                command = self.INDEX_BTREE_AGE
                 cursor.execute(command)
 
-    def select_adults_hash(self):
+    def index_hash_age(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
-                command = self.SELECT_ADULTS_HASH
+                command = self.INDEX_HASH_AGE
                 cursor.execute(command)
 
-    def performance_select_adults_btree(self):
+    def index_btree_name(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
-                command = self.ANALYZE_BTREE
+                command = self.INDEX_BTREE_NAME
+                cursor.execute(command)
+
+    def index_hash_name(self):
+        with self.connection_db:
+            with self.connection_db.cursor() as cursor:
+                command = self.INDEX_HASH_NAME
+                cursor.execute(command)
+
+    def analyze_btree_age(self):
+        with self.connection_db:
+            with self.connection_db.cursor() as cursor:
+                command = self.ANALYZE_BTREE_AGE
                 cursor.execute(command)
                 print('B-tree: ', cursor.fetchall()[0][0])
 
-    def performance_select_adults_hash(self):
+    def analyze_hash_age(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
-                command = self.ANALYZE_HASH
+                command = self.ANALYZE_HASH_AGE
                 cursor.execute(command)
                 print('Hash:  ', cursor.fetchall()[0][0])
 
-    def create_index_age_btree(self):
+    def analyze_btree_name(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
-                command = self.CREATE_INDEX_BTREE
+                command = self.ANALYZE_BTREE_NAME
                 cursor.execute(command)
+                print('B-tree: ', cursor.fetchall()[0][0])
 
-    def create_index_age_hash(self):
+    def analyze_hash_name(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
-                command = self.CREATE_INDEX_HASH
+                command = self.ANALYZE_HASH_NAME
                 cursor.execute(command)
+                print('Hash:  ', cursor.fetchall()[0][0])
