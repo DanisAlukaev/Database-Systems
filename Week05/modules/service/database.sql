@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS customer_btree
+CREATE TABLE IF NOT EXISTS customer1
 (
     id      SERIAL PRIMARY KEY NOT NULL,
     name    TEXT               NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS customer_btree
     review  TEXT
 );
 
-CREATE TABLE IF NOT EXISTS customer_hash
+CREATE TABLE IF NOT EXISTS customer2
 (
     id      SERIAL PRIMARY KEY NOT NULL,
     name    TEXT               NOT NULL,
