@@ -5,8 +5,8 @@ def _exercise1(queries: Queries):
     print('\nExercise #1: ')
     print("Before applying indexes.")
     tables = queries.analyze_exercise1_customer1(), queries.analyze_exercise1_customer2()
-    print("Table 'customer1': ", tables[0])
-    print("Table 'customer2': ", tables[1])
+    print("Table 'customer1': ", tables[0][0][0])
+    print("Table 'customer2': ", tables[1][0][0])
 
     print("Indexes for tables 'customer1' (B-tree), 'customer2' (Hash) were created successfully.")
     queries.index_btree_customer1()
@@ -14,8 +14,8 @@ def _exercise1(queries: Queries):
 
     print("After applying indexes.")
     tables = queries.analyze_exercise1_customer1(), queries.analyze_exercise1_customer2()
-    print("Table 'customer1': ", tables[0])
-    print("Table 'customer2': ", tables[1])
+    print("Table 'customer1': ", tables[0][3][0])
+    print("Table 'customer2': ", tables[1][0][0])
 
 
 def _exercise2(queries: Queries):
@@ -23,8 +23,8 @@ def _exercise2(queries: Queries):
 
     print("Before applying indexes.")
     tables = queries.analyze_exercise2_customer1(), queries.analyze_exercise2_customer2()
-    print("Table 'customer1': ", tables[0])
-    print("Table 'customer2': ", tables[1])
+    print("Table 'customer1': ", tables[0][0][0])
+    print("Table 'customer2': ", tables[1][0][0])
 
     print("Indexes for tables 'customer1' (GIN), 'customer2' (GiST) were created successfully.")
     queries.index_gin_customer1()
@@ -32,8 +32,8 @@ def _exercise2(queries: Queries):
 
     print("After applying indexes.")
     tables = queries.analyze_exercise2_customer1(), queries.analyze_exercise2_customer2()
-    print("Table 'customer1': ", tables[0])
-    print("Table 'customer2': ", tables[1])
+    print("Table 'customer1': ", tables[0][3][0])
+    print("Table 'customer2': ", tables[1][3][0])
 
 
 def check_performance(queries: Queries):

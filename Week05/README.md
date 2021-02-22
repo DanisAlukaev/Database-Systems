@@ -61,21 +61,21 @@ Done!
 
 Exercise #1: 
 Before applying indexes.
-Table 'customer1':  Seq Scan on customer1  (cost=0.00..4590.48 rows=7642 width=216) (actual time=0.052..36.475 rows=7487 loops=1)
-Table 'customer2':  Seq Scan on customer2  (cost=0.00..4590.56 rows=7463 width=215) (actual time=0.009..16.724 rows=7487 loops=1)
+Table 'customer1':  Seq Scan on customer1  (cost=0.00..4592.27 rows=7575 width=215) (actual time=0.006..14.489 rows=7500 loops=1)
+Table 'customer2':  Seq Scan on customer2  (cost=0.00..4592.23 rows=7401 width=215) (actual time=0.005..14.457 rows=7500 loops=1)
 Indexes for tables 'customer1' (B-tree), 'customer2' (Hash) were created successfully.
 After applying indexes.
-Table 'customer1':  Bitmap Heap Scan on customer1  (cost=166.60..3371.20 rows=7640 width=216) (actual time=1.384..4.795 rows=7487 loops=1)
-Table 'customer2':  Seq Scan on customer2  (cost=0.00..4590.00 rows=7460 width=215) (actual time=0.009..13.952 rows=7487 loops=1)
+Table 'customer1':    ->  Bitmap Index Scan on btree_ex1  (cost=0.00..160.02 rows=7573 width=0) (actual time=1.062..1.062 rows=7500 loops=1)
+Table 'customer2':  Seq Scan on customer2  (cost=0.00..4592.00 rows=7400 width=215) (actual time=0.006..13.572 rows=7500 loops=1)
 
 Exercise #2: 
 Before applying indexes.
-Table 'customer1':  Gather  (cost=1000.00..15323.80 rows=2963 width=216) (actual time=0.410..1490.630 rows=12704 loops=1)
-Table 'customer2':  Gather  (cost=1000.00..15323.80 rows=2963 width=215) (actual time=0.441..1492.154 rows=12704 loops=1)
+Table 'customer1':  Gather  (cost=1000.00..15325.80 rows=2963 width=215) (actual time=0.615..1410.499 rows=12708 loops=1)
+Table 'customer2':  Gather  (cost=1000.00..15325.80 rows=2963 width=215) (actual time=0.551..1390.802 rows=12708 loops=1)
 Indexes for tables 'customer1' (GIN), 'customer2' (GiST) were created successfully.
 After applying indexes.
-Table 'customer1':  Bitmap Heap Scan on customer1  (cost=74.96..4026.78 rows=2963 width=215) (actual time=3.791..8.101 rows=12704 loops=1)
-Table 'customer2':  Bitmap Heap Scan on customer2  (cost=203.24..4155.06 rows=2963 width=215) (actual time=23.483..609.855 rows=12704 loops=1)
+Table 'customer1':    ->  Bitmap Index Scan on gin_ex2  (cost=0.00..145.07 rows=12409 width=0) (actual time=2.554..2.554 rows=12708 loops=1)
+Table 'customer2':    ->  Bitmap Index Scan on gist_ex2  (cost=0.00..202.50 rows=2963 width=0) (actual time=23.210..23.210 rows=12708 loops=1)
 ```
 
 The screenshot of output in PyCharm:
@@ -84,10 +84,10 @@ The screenshot of output in PyCharm:
 ### Conclusions.
 
 <b>Exercise 1.</b>\
-Application of B-tree index on integer attribute slightly optimizes the query in terms of cost function:  `0.00..4590.48 vs 166.60..3371.20`. It does make sense, since the B-tree approach is 
+Application of B-tree index on integer attribute slightly optimizes the query in terms of cost function:  `0.00..4592.27 vs 0.00..160.02`. It does make sense, since the B-tree approach is 
 suitable for data that can be sorted (ref. Week 5 - Lab). \
-On the contrary, using Hash index does not influence on overall efficiency and gives compatible results before and after indexing: `0.00..4590.56 vs 0.00..4590.00`. Moreover, it is worth mentioning that
+On the contrary, using Hash index does not influence on overall efficiency and gives compatible results before and after indexing: `0.00..4592.23 vs 0.00..4592.00`. Moreover, it is worth mentioning that
 Hash index currently (PostgreSQL 13.2) does not capable of multicolumn indexing, and therefore usage of B-tree index for integer attribute `age` is more justified for future developing.  \
 \
 <b>Exercise 2.</b>\
-Application of GIN and GIST indexes yields compatible results in terms of cost function:  `1000.00..15323.80 vs 74.96..4026.78` and `1000.00..15323.80 vs 203.24..4155.06`. However, in case of full text search of entries containing words "media", "conference", "camera", "economic", "company", "cost" on generated [data](documents/customer1.csv) the best performance reached with using of GIN index.
+Application of GIN and GiST indexes yields compatible results in terms of cost function:  `1000.00..15325.80 vs 0.00..145.07` and `1000.00..15325.80 vs 0.00..202.50`. However, in case of full text search of entries containing words "media", "conference", "camera", "economic", "company", "cost" on generated [data](documents/customer1.csv) the best performance reached with using of GIN index.

@@ -79,25 +79,25 @@ class Queries:
             with self.connection_db.cursor() as cursor:
                 command = self.ANALYZE_EXERCISE1_CUSTOMER1
                 cursor.execute(command)
-                return cursor.fetchall()[0][0]
+                return cursor.fetchall()
 
     def analyze_exercise1_customer2(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
                 command = self.ANALYZE_EXERCISE1_CUSTOMER2
                 cursor.execute(command)
-                return cursor.fetchall()[0][0]
+                return cursor.fetchall()
 
     def analyze_exercise2_customer1(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
                 command = self.ANALYZE_EXERCISE2_CUSTOMER1
                 cursor.execute(command)
-                return cursor.fetchall()[0][0]
+                return cursor.fetchall()
 
     def analyze_exercise2_customer2(self):
         with self.connection_db:
             with self.connection_db.cursor() as cursor:
                 command = self.ANALYZE_EXERCISE2_CUSTOMER2
                 cursor.execute(command)
-                return cursor.fetchall()[0][0]
+                return cursor.fetchall()
