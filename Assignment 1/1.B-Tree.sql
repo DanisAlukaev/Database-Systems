@@ -53,18 +53,19 @@ c.customer_id and active = 1 and r2.last_update > r1.last_update);
 --      HashAggregate  (cost=7747.19..7747.20 rows=1 width=40) (actual time=134.656..134.658 rows=1 loops=1)
 DROP INDEX rental_duration_film_index;
 DROP INDEX phone_address_index;
+DROP INDEX release_year_film_index;
 
 -- After applying:
---      HashAggregate  (cost=5364.11..5364.12 rows=1 width=40) (actual time=131.197..131.199 rows=1 loops=1)
+--      GroupAggregate  (cost=0.94..5392.39 rows=1 width=40) (actual time=115.047..115.048 rows=1 loops=1)
 CREATE INDEX rental_duration_film_index ON film USING btree (rental_duration);
 CREATE INDEX phone_address_index ON address USING btree (phone);
+CREATE INDEX release_year_film_index ON film USING btree (release_year);
 
 -- TRIED:   CREATE INDEX rating_film_index ON film USING btree (rating);
 --          DROP INDEX rating_film_index;
 --
 --          CREATE INDEX length_film_index ON film USING btree (length);
 --          DROP INDEX length_film_index;
---
 
 EXPLAIN ANALYZE
 select f1.release_year, max(f2.rating), (select max(phone) from
