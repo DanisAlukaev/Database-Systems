@@ -1,0 +1,163 @@
+Report for Assignment 1 on Database Systems course.
+
+Student:	Danis Alukaev
+Group:		BS19-02
+Student ID:	19BS551
+
+1. Using B-Tree index
+
+	a. Improving the Query 1 (Q1).
+	
+		i. Targeted table and attributes:
+		
+			The index was created on table 'payment'. Specifically, it was created on the 'amount' column. This column is of numeric(5, 2) data type, where 5 is precision of the number
+			and 2 is its scale. 
+			
+		ii. Data Definition Language (DDL) query:
+			
+			CREATE INDEX amount_payment_index ON payment USING btree (amount);
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated start-up cost	510.99			510.99			0.00				0.00
+			Estimated total cost		12062691.37		11659130.21		403561.16			3.35
+			 
+	
+	b. Improving the Query 2 (Q2).
+	
+		i. Targeted table and attributes:
+		
+			The index was created on table 'rental'. Specifically, it was created on the 'last_update' column. This column is of timestamp data type.
+			
+		ii. Data Definition Language (DDL) query:
+			
+			CREATE INDEX last_updated_rental_index ON rental USING btree (last_update);
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated start-up cost	534.78			535.06			-0.28				~ 0.00
+			Estimated total cost		2284549.49		1557083.92		727465.57			31.84
+
+	c. Improving the Query 3 (Q3).
+	
+		i. Targeted table and attributes:
+		
+			The first index was created on table 'film'. Specifically, it was created on the 'rental_duration' column. This column is of smallint data type.
+			The second index was created on table 'film'. Specifically, it was created on the 'release_year' column. This column is of year data type.
+			The third index was created on table 'address'. Specifically, it was created on the 'phone' column. This column is of varchar(20) data type.
+			
+			
+		ii. Data Definition Language (DDL) query:
+			
+			CREATE INDEX rental_duration_film_index ON film USING btree (rental_duration);
+			CREATE INDEX release_year_film_index ON film USING btree (release_year);
+			CREATE INDEX phone_address_index ON address USING btree (phone);
+			
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated start-up cost	7747.19		0.94			7746.25			~ 100.00
+			Estimated total cost		7747.20		5392.39		2354.81			30.40
+			
+
+
+2. Using Hash index
+
+	a. Improving the Query 1 (Q1).
+		
+		i. Targeted table and attributes:
+		
+						
+			
+		ii. Data Definition Language (DDL) query:
+			
+			
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+			
+	
+	b. Improving the Query 2 (Q2).
+		
+		i. Targeted table and attributes:
+		
+						
+			
+		ii. Data Definition Language (DDL) query:
+			
+			
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+			
+
+	c. Improving the Query 3 (Q3).
+		
+		i. Targeted table and attributes:
+		
+						
+			
+		ii. Data Definition Language (DDL) query:
+			
+			
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+			
+
+3. Using SP-GiST index
+
+	a. Improving the Query 1 (Q1).
+		
+		i. Targeted table and attributes:
+		
+						
+			
+		ii. Data Definition Language (DDL) query:
+			
+			
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+	
+	b. Improving the Query 2 (Q2).
+	
+		i. Targeted table and attributes:
+		
+						
+			
+		ii. Data Definition Language (DDL) query:
+			
+			
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+			
+	c. Improving the Query 3 (Q3).
+	
+		i. Targeted table and attributes:
+		
+						
+			
+		ii. Data Definition Language (DDL) query:
+			
+			
+		
+		iii. Analysis of cost before and after the creation of the index:
+			
+			
+
+REQUIREMENTS:
+
+i. Targeted table and attributes
+	Describe where the index was created, and justification of why you choose them - this should include aspects like the datatype 
+	of the column, common values, range, etc. (At least 70 characters) (2 scores)
+ii. DDL query (2 scores)
+iii. Cost before and after the creation of the index (1 score) 
+Write the absolute values and the percentage of improvement.
+
+
+
