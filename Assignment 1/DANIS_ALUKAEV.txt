@@ -206,7 +206,6 @@ c.customer_id (ref. Query 2, Assignment 1).
 		i. Targeted table and attributes:
 			The SP-GiST index is not applicable for integer and smallint attributes. Consequently, the attempt to apply it to attribute 'active' of table 'customer', to 'customer_id' of tables 'customer', 'rental', to 'rental_id' of tables 'rental', 'payment', to 'last_update' of table 'rental' causes an error. Therefore, SP-GiST cannot be applied to the query Q2. 
 						
-			
 		ii. Data Definition Language (DDL) query:
 			
 			Queries causing errors:
