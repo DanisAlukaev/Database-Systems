@@ -59,9 +59,9 @@ Student ID:	19BS551
 		
 		iii. Analysis of cost before and after the creation of the index:
 			
-								Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
-			Estimated startup cost			7747.19		0.94			7746.25			~ 100.00
-			Estimated total cost			7747.20		5392.39		2354.81			30.40
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated startup cost		7747.19		0.94			7746.25			~ 100.00
+			Estimated total cost		7747.20		5392.39		2354.81			30.40
 			
 
 
