@@ -1,20 +1,21 @@
--- B-Tree section
+-- Hash section
 
 -- Query 1.
 
 -- Before applying:
 --      Hash Join  (cost=510.99..12062691.37 rows=14596 width=70) (actual time=22.557..64342.399 rows=14596 loops=1)
-DROP INDEX amount_payment_index;
 
--- After applying:
---      Hash Join  (cost=510.99..11659130.21 rows=14596 width=70) (actual time=16.934..40902.928 rows=14596 loops=1)
-CREATE INDEX amount_payment_index ON payment USING btree (amount);
+-- No improvements.
 
--- TRIED:   CREATE INDEX rental_id_payment_index ON payment USING btree (rental_id);
+-- TRIED:   CREATE INDEX rental_id_payment_index ON payment USING hash (rental_id);
 --          DROP INDEX rental_id_payment_index;
 --
---          CREATE INDEX rental_id_rental_index ON rental USING btree (rental_id);
+--          CREATE INDEX rental_id_rental_index ON rental USING hash (rental_id);
 --          DROP INDEX rental_id_rental_index;
+--
+--          CREATE INDEX amount_payment_index ON payment USING hash (amount);
+--          DROP INDEX amount_payment_index;
+
 
 EXPLAIN ANALYZE select *, (select count(*) from rental r2, payment p2 where
 r2.rental_id = p2.rental_id and p2.amount<p.amount) as
@@ -25,20 +26,20 @@ p.rental_id;
 
 -- Before applying:
 --      Nested Loop Anti Join  (cost=534.78..2284549.49 rows=9731 width=10) (actual time=8767.066..26962.442 rows=1 loops=1)
-DROP INDEX last_updated_rental_index;
 
--- After applying:
---      Nested Loop Anti Join  (cost=535.06..1557083.92 rows=9731 width=10) (actual time=21.287..50.309 rows=1 loops=1)
-CREATE INDEX last_updated_rental_index ON rental USING btree (last_update);
+-- No improvements.
 
--- TRIED:   CREATE INDEX active_customer_index ON customer USING btree (active);
+-- TRIED:   CREATE INDEX active_customer_index ON customer USING hash (active);
 --          DROP INDEX active_customer_index;
 --
---          CREATE INDEX customer_id_payment_index ON customer USING btree (customer_id);
+--          CREATE INDEX customer_id_payment_index ON customer USING hash (customer_id);
 --          DROP INDEX customer_id_payment_index;
 --
---          CREATE INDEX customer_id_rental_index ON rental USING btree (customer_id);
+--          CREATE INDEX customer_id_rental_index ON rental USING hash (customer_id);
 --          DROP INDEX customer_id_rental_index;
+--
+--          CREATE INDEX last_updated_rental_index ON rental USING hash (last_update);
+--          DROP INDEX last_updated_rental_index;
 
 EXPLAIN ANALYZE
 SELECT r1.staff_id, p1.payment_date
@@ -51,20 +52,20 @@ c.customer_id and active = 1 and r2.last_update > r1.last_update);
 
 -- Before applying:
 --      HashAggregate  (cost=7747.19..7747.20 rows=1 width=40) (actual time=134.656..134.658 rows=1 loops=1)
-DROP INDEX rental_duration_film_index;
-DROP INDEX phone_address_index;
 
--- After applying:
---      HashAggregate  (cost=5364.11..5364.12 rows=1 width=40) (actual time=131.197..131.199 rows=1 loops=1)
-CREATE INDEX rental_duration_film_index ON film USING btree (rental_duration);
-CREATE INDEX phone_address_index ON address USING btree (phone);
+-- No improvements.
 
--- TRIED:   CREATE INDEX rating_film_index ON film USING btree (rating);
+-- TRIED:   CREATE INDEX rating_film_index ON film USING hash (rating);
 --          DROP INDEX rating_film_index;
 --
---          CREATE INDEX length_film_index ON film USING btree (length);
+--          CREATE INDEX length_film_index ON film USING hash (length);
 --          DROP INDEX length_film_index;
 --
+--          CREATE INDEX rental_duration_film_index ON film USING hash (rental_duration);
+--          DROP INDEX rental_duration_film_index;
+--
+--          CREATE INDEX phone_address_index ON address USING hash (phone);
+--          DROP INDEX phone_address_index;
 
 EXPLAIN ANALYZE
 select f1.release_year, max(f2.rating), (select max(phone) from
