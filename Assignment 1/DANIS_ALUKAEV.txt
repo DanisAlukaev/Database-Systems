@@ -20,8 +20,10 @@ Student ID:	19BS551
 		iii. Analysis of cost before and after the creation of the index:
 			
 							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
-			Estimated start-up cost		510.99			510.99			0.00				0.00
+			Estimated start-up cost	510.99			510.99			0.00				0.00
+			Estimated start-up cost	510.99		11659130.21		403561.16			3.35
 			Estimated total cost		12062691.37		11659130.21		403561.16			3.35
+			
 			 
 	
 	b. Improving the Query 2 (Q2).
