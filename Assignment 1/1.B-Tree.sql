@@ -8,12 +8,12 @@ DROP INDEX amount_payment_index;
 
 -- After applying:
 --      Hash Join  (cost=510.99..11659130.21 rows=14596 width=70) (actual time=16.934..40902.928 rows=14596 loops=1)
-CREATE INDEX amount_payment_index ON payment (amount);
+CREATE INDEX amount_payment_index ON payment USING btree (amount);
 
--- TRIED:   CREATE INDEX rental_id_payment_index ON payment (rental_id);
+-- TRIED:   CREATE INDEX rental_id_payment_index ON payment USING btree (rental_id);
 --          DROP INDEX rental_id_payment_index;
 --
---          CREATE INDEX rental_id_rental_index ON rental (rental_id);
+--          CREATE INDEX rental_id_rental_index ON rental USING btree (rental_id);
 --          DROP INDEX rental_id_rental_index;
 
 EXPLAIN ANALYZE select *, (select count(*) from rental r2, payment p2 where
@@ -29,15 +29,15 @@ DROP INDEX last_updated_rental_index;
 
 -- After applying:
 --      Nested Loop Anti Join  (cost=535.06..1557083.92 rows=9731 width=10) (actual time=21.287..50.309 rows=1 loops=1)
-CREATE INDEX last_updated_rental_index ON rental(last_update);
+CREATE INDEX last_updated_rental_index ON rental USING btree (last_update);
 
--- TRIED:   CREATE INDEX last_updated_customer_index ON customer(active);
+-- TRIED:   CREATE INDEX last_updated_customer_index ON customer USING btree (active);
 --          DROP INDEX active_customer_index;
 --
---          CREATE INDEX customer_id_payment_index ON customer (customer_id);
+--          CREATE INDEX customer_id_payment_index ON customer USING btree (customer_id);
 --          DROP INDEX customer_id_payment_index;
 --
---          CREATE INDEX customer_id_rental_index ON rental (customer_id);
+--          CREATE INDEX customer_id_rental_index ON rental USING btree (customer_id);
 --          DROP INDEX customer_id_rental_index;
 
 EXPLAIN ANALYZE
@@ -56,8 +56,8 @@ DROP INDEX phone_address_index;
 
 -- After applying:
 --      HashAggregate  (cost=5364.11..5364.12 rows=1 width=40) (actual time=131.197..131.199 rows=1 loops=1)
-CREATE INDEX rental_duration_film_index ON film(rental_duration);
-CREATE INDEX phone_address_index ON address(phone);
+CREATE INDEX rental_duration_film_index ON film USING btree (rental_duration);
+CREATE INDEX phone_address_index ON address USING btree (phone);
 
 -- TRIED:   CREATE INDEX rating_film_index ON film(rating);
 --          DROP INDEX rating_film_index;
