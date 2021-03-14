@@ -4,6 +4,7 @@ Student:	Danis Alukaev
 Group:		BS19-02
 Student ID:	19BS551
 
+
 1. Using B-Tree index
 
 	a. Improving the Query 1 (Q1).
@@ -12,6 +13,9 @@ Student ID:	19BS551
 		
 			The index was created on table 'payment'. Specifically, it was created on the 'amount' column. This column is of numeric(5, 2) data type, where 5 is precision of the number
 			and 2 is its scale. 
+			Apparently, the index creation is aimed at optimization of less operation performed on the 'amount' attribute: p2.amount<p.amount (ref. Query 1, Assignment 1).
+			The values are from 0 to 11.99, so they increase in steps of 0.99. Accordingly, the data is acceptable for B-Tree and might affect the performnce. 
+			Since it is possible to sort records by the values of 'amount' attribute, the B-Tree index is appropriate and gives a performance improvement. 
 			
 		ii. Data Definition Language (DDL) query:
 			
@@ -22,14 +26,15 @@ Student ID:	19BS551
 							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
 			Estimated startup cost		510.99			510.99			0.00				0.00
 			Estimated total cost		12062691.37		11659130.21		403561.16			3.35
-			
-			 
-	
+				
 	b. Improving the Query 2 (Q2).
 	
 		i. Targeted table and attributes:
 		
 			The index was created on table 'rental'. Specifically, it was created on the 'last_update' column. This column is of timestamp data type.
+			Apparently, the index creation is aimed at optimization of greater operation performed on the 'last_update' attribute: r2.last_update > r1.last_update (ref. Query 2, Assignment 1).
+			The values are poorly distributed and 16042 out of 16044 of records have a value of 2006-02-16 02:30:53.000000. However, it is still possible to sort records by the values
+			of 'last_update' attribute, and, therefore, the B-Tree index is appropriate and gives a performance improvement.
 			
 		ii. Data Definition Language (DDL) query:
 			
@@ -46,9 +51,19 @@ Student ID:	19BS551
 		i. Targeted table and attributes:
 		
 			The first index was created on table 'film'. Specifically, it was created on the 'rental_duration' column. This column is of smallint data type.
+			Apparently, the index creation is aimed at optimization of greater operation performed on the 'rental_duration' attribute: f1.rental_duration>f2.rental_duration (ref. Query 3, Assignment 1).
+			The values are from 3 to 7, so they increase in steps of 1. Accordingly, the data is acceptable for B-Tree and might affect the performance. 
+			Since it is possible to sort records by the values of 'rental_duration' attribute, the B-Tree index is appropriate and gives a performance improvement.
+						
 			The second index was created on table 'film'. Specifically, it was created on the 'release_year' column. This column is of year data type.
-			The third index was created on table 'address'. Specifically, it was created on the 'phone' column. This column is of varchar(20) data type.
+			Apparently, the index creation is aimed at optimization of 'group by' clause performed on the 'release_year' attribute: group by f1.release_year (ref. Query 3, Assignment 1).
+			All values are 2006, so the B-Tree might affect the performance. 
+			Since it is possible to sort records by the values of 'release_year' attribute, the B-Tree index is appropriate and gives a performance improvement.
 			
+			The third index was created on table 'address'. Specifically, it was created on the 'phone' column. This column is of varchar(20) data type.
+			Apparently, the index creation is aimed at optimization of aggregate function 'max' performed on the 'phone' attribute: max(phone) (ref. Query 3, Assignment 1).
+			Values vary significantly and tend to be unique, so the B-Tree might affect the performance. 
+			Since it is possible to sort records by the values of 'address' attribute, the B-Tree index is appropriate and gives a performance improvement.
 			
 		ii. Data Definition Language (DDL) query:
 			
@@ -64,7 +79,6 @@ Student ID:	19BS551
 			Estimated total cost		7747.20 		5392.39 		2354.81 			30.40
 			
 
-
 2. Using Hash index
 
 	a. Improving the Query 1 (Q1).
@@ -78,8 +92,7 @@ Student ID:	19BS551
 			
 		
 		iii. Analysis of cost before and after the creation of the index:
-			
-			
+				
 	
 	b. Improving the Query 2 (Q2).
 		
@@ -94,7 +107,6 @@ Student ID:	19BS551
 		iii. Analysis of cost before and after the creation of the index:
 			
 			
-
 	c. Improving the Query 3 (Q3).
 		
 		i. Targeted table and attributes:
@@ -106,9 +118,9 @@ Student ID:	19BS551
 			
 		
 		iii. Analysis of cost before and after the creation of the index:
+				
+		
 			
-			
-
 3. Using SP-GiST index
 
 	a. Improving the Query 1 (Q1).
