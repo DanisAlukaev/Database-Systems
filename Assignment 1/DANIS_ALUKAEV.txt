@@ -170,7 +170,6 @@ c.customer_id (ref. Query 2, Assignment 1).
 			However, it did not give any improvement as the Hash index cannot yield better than the HashAggregate algorithm performance. 
 			Usage of Hash index on the 'rating', 'length', 'rental_duration', 'phone' columns is unjustified as '=' operator does not concern them in the Q3.
 			
-		
 		iii. Analysis of cost before and after the creation of the index:
 			
 			There is no improvements in terms of cost function.
@@ -179,9 +178,7 @@ c.customer_id (ref. Query 2, Assignment 1).
 			Estimated startup cost		7747.19 		7747.19 		0.00				0.00
 			Estimated total cost		7747.20 		7747.20 		0.00				0.00
 			
-				
-		
-			
+						
 3. Using SP-GiST index
 
 	a. Improving the Query 1 (Q1).
@@ -227,7 +224,6 @@ c.customer_id (ref. Query 2, Assignment 1).
 							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
 			Estimated startup cost		534.78			534.78			0.00				0.00
 			Estimated total cost		2284549.49		2284549.49		0.00				0.00
-
 			
 	c. Improving the Query 3 (Q3).
 	
@@ -251,6 +247,3 @@ c.customer_id (ref. Query 2, Assignment 1).
 							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
 			Estimated startup cost		7747.19 		7747.19 		0.00				0.00
 			Estimated total cost		7747.20 		7747.20 		0.00				0.00
-
-
-
