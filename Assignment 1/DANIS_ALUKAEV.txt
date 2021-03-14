@@ -53,7 +53,7 @@ Student ID:	19BS551
 			The first index was created on table 'film'. Specifically, it was created on the 'rental_duration' column. This column is of smallint data type.
 			Apparently, the index creation is aimed at optimization of greater operation performed on the 'rental_duration' attribute: f1.rental_duration>f2.rental_duration (ref. Query 3, Assignment 1).
 			The values are from 3 to 7, so they increase in steps of 1. Accordingly, the data is acceptable for B-Tree and might affect the performance. 
-			Since it is possible to sort records by the values of 'rental_duration' attribute, the B-Tree index is appropriate and gives a performance improvement.
+			Since it is possible to sort records by the values of 'rental_duration' attribute, the B-Tree index is appropriate and gives a performance improvement for greater comparisons.
 						
 			The second index was created on table 'film'. Specifically, it was created on the 'release_year' column. This column is of year data type.
 			Apparently, the index creation is aimed at optimization of 'group by' clause performed on the 'release_year' attribute: group by f1.release_year (ref. Query 3, Assignment 1).
@@ -70,7 +70,6 @@ Student ID:	19BS551
 			CREATE INDEX rental_duration_film_index ON film USING btree (rental_duration);
 			CREATE INDEX release_year_film_index ON film USING btree (release_year);
 			CREATE INDEX phone_address_index ON address USING btree (phone);
-			
 		
 		iii. Analysis of cost before and after the creation of the index:
 			
@@ -84,40 +83,102 @@ Student ID:	19BS551
 	a. Improving the Query 1 (Q1).
 		
 		i. Targeted table and attributes:
-		
+			
+			The first index was created on table 'payment'. Specifically, it was created on the 'rental_id' column. This column is of integer data type.
+			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'rental_id' attribute: r2.rental_id = p2.rental_id, r.rental_id =
+p.rental_id (ref. Query 1, Assignment 1).
+			The values vary significantly, so there will be small number of collisions. Accordingly, the data is acceptable for Hash index and might affect the performance for equality comparisons. 
 						
+			The second index was created on table 'rental'. Specifically, it was created on the 'rental_id' column. This column is of integer data type.
+			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'rental_id' attribute: r2.rental_id = p2.rental_id, r.rental_id =
+p.rental_id (ref. Query 1, Assignment 1).
+			The values are unique, so there will be no collisions. Accordingly, the data is acceptable for Hash index and might affect the performance for equality comparisons. 
 			
 		ii. Data Definition Language (DDL) query:
 			
-			
+			There were tried following queries:
+				CREATE INDEX rental_id_payment_index ON payment USING hash (rental_id);
+				CREATE INDEX rental_id_rental_index ON rental USING hash (rental_id);
+			However, none of them gave any improvement. The reason is that the default hash join performed on these columns cannot be improved by hashing.
+			Usage of Hash index on the 'amount' column is unjustified as '=' operator does not concern it in the Q1. 		
 		
 		iii. Analysis of cost before and after the creation of the index:
-				
+			
+			There is no improvements in terms of cost function.
+			
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated startup cost		510.99			510.99			0.00				0.00
+			Estimated total cost		12062691.37		12062691.37		0.00				0.00
 	
 	b. Improving the Query 2 (Q2).
 		
 		i. Targeted table and attributes:
 		
+			The first index was created on table 'customer'. Specifically, it was created on the 'active' column. This column is of integer data type.
+			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'active' attribute: active = 1 (ref. Query 2, Assignment 1).
+			The values are unique, so there will be no collisions. Accordingly, the data is acceptable for Hash index and might affect the performance for equality comparisons.
+					
+			The second index was created on table 'customer'. Specifically, it was created on the 'customer_id' column. This column is of integer data type.
+			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'customer_id' attribute: r2.customer_id =
+c.customer_id (ref. Query 2, Assignment 1).
+			The values are unique, so there will be no collisions. Accordingly, the data is acceptable for Hash index and might affect the performance for equality comparisons.
+			
+			The third index was created on table 'rental'. Specifically, it was created on the 'customer_id' column. This column is of smallint data type.
+			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'customer_id' attribute: r2.customer_id =
+c.customer_id (ref. Query 2, Assignment 1).
+			The values vary significantly, so there will be small number of collisions. Accordingly, the data is acceptable for Hash index and might affect the performance for equality comparisons. 
+			
+			The fourth index was created on table 'payment'. Specifically, it was created on the 'rental_id' column. This column is of integer data type.
+			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'rental_id' attribute: r1.rental_id = p1.rental_id (ref. Query 2, Assignment 1).
+			The values vary significantly, so there will be small number of collisions. Accordingly, the data is acceptable for Hash index and might affect the performance for equality comparisons. 
 						
+			The fifth index was created on table 'rental'. Specifically, it was created on the 'rental_id' column. This column is of integer data type.
+			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'rental_id' attribute: r1.rental_id = p1.rental_id (ref. Query 2, Assignment 1).
+			The values are unique, so there will be no collisions. Accordingly, the data is acceptable for Hash index and might affect the performance for equality comparisons. 
 			
 		ii. Data Definition Language (DDL) query:
 			
-			
+			There were tried following queries:
+				CREATE INDEX active_customer_index ON customer USING hash (active);
+				CREATE INDEX customer_id_payment_index ON customer USING hash (customer_id);
+				CREATE INDEX customer_id_rental_index ON rental USING hash (customer_id);
+				CREATE INDEX rental_id_payment_index ON payment USING hash (rental_id);
+				CREATE INDEX rental_id_rental_index ON rental USING hash (rental_id);
+			However, none of them gave any improvement. The former index improves nothing due to large number of colisions. The middle and latter two indexes fail to improve the query as the default hash join performed on these columns cannot be improved by hashing. 
+			Usage of Hash index on the 'last_update' column is unjustified as '=' operator does not concern it in the Q2. 	
 		
 		iii. Analysis of cost before and after the creation of the index:
 			
+			There is no improvements in terms of cost function.
+			
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated startup cost		534.78			534.78			0.00				0.00
+			Estimated total cost		2284549.49		2284549.49		0.00				0.00
 			
 	c. Improving the Query 3 (Q3).
 		
 		i. Targeted table and attributes:
-		
-						
 			
+			The index was created on table 'film'. Specifically, it was created on the 'release_year' column. This column is of year data type.
+			Apparently, the index creation is aimed at optimization of 'group by' clause performed on the 'release_year' attribute: group by f1.release_year (ref. Query 3, Assignment 1).
+			All values are 2006, so there will be large number of collisions, so the application of this index is unnecessary. 
+						
 		ii. Data Definition Language (DDL) query:
 			
+			There was tried following query:
+				CREATE INDEX release_year_film_index ON film USING hash (release_year);
+			However, it did not give any improvement as the Hash index cannot yield better than the HashAggregate algorithm performance. 
+			Usage of Hash index on the 'rating', 'length', 'rental_duration', 'phone' columns is unjustified as '=' operator does not concern them in the Q3.
 			
 		
 		iii. Analysis of cost before and after the creation of the index:
+			
+			There is no improvements in terms of cost function.
+			
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated startup cost		7747.19 		7747.19 		0.00				0.00
+			Estimated total cost		7747.20 		7747.20 		0.00				0.00
+			
 				
 		
 			
@@ -126,51 +187,70 @@ Student ID:	19BS551
 	a. Improving the Query 1 (Q1).
 		
 		i. Targeted table and attributes:
-		
-						
+			The SP-GiST index is not applicable for integer attributes. Consequently, the attempt to apply it to attribute 'rental_id' of tables 'rental', 'payment' and to attribute amount of table payment causes an error. Therefore, SP-GiST cannot be applied to the query Q1. 			
 			
 		ii. Data Definition Language (DDL) query:
 			
-			
+			Queries causing errors:
+				CREATE INDEX rental_id_payment_index ON payment USING spgist (rental_id);
+				CREATE INDEX rental_id_rental_index ON rental USING spgist (rental_id);
+				CREATE INDEX amount_payment_index ON payment USING spgist (amount);
 		
 		iii. Analysis of cost before and after the creation of the index:
+						
+			There is no improvements in terms of cost function.
 			
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated startup cost		510.99			510.99			0.00				0.00
+			Estimated total cost		12062691.37		12062691.37		0.00				0.00
 	
 	b. Improving the Query 2 (Q2).
 	
 		i. Targeted table and attributes:
-		
+			The SP-GiST index is not applicable for integer and smallint attributes. Consequently, the attempt to apply it to attribute 'active' of table 'customer', to 'customer_id' of tables 'customer', 'rental', to 'rental_id' of tables 'rental', 'payment', to 'last_update' of table 'rental' causes an error. Therefore, SP-GiST cannot be applied to the query Q2. 
 						
 			
 		ii. Data Definition Language (DDL) query:
 			
-			
+			Queries causing errors:
+				CREATE INDEX active_customer_index ON customer USING spgist (active);
+				CREATE INDEX customer_id_payment_index ON customer USING spgist (customer_id);
+				CREATE INDEX customer_id_rental_index ON rental USING spgist (customer_id);
+				CREATE INDEX rental_id_payment_index ON payment USING spgist (rental_id);
+				CREATE INDEX rental_id_rental_index ON rental USING spgist (rental_id);
+				CREATE INDEX last_updated_rental_index ON rental USING hash (last_update);
 		
 		iii. Analysis of cost before and after the creation of the index:
 			
+			There is no improvements in terms of cost function.
+			
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated startup cost		534.78			534.78			0.00				0.00
+			Estimated total cost		2284549.49		2284549.49		0.00				0.00
+
 			
 	c. Improving the Query 3 (Q3).
 	
 		i. Targeted table and attributes:
-		
-						
+			
+			The index was created on table 'film'. Specifically, it was created on the 'release_year' column. This column is of year data type.
+			Apparently, the index creation is aimed at optimization of 'group by' clause performed on the 'release_year' attribute: group by f1.release_year (ref. Query 3, Assignment 1).
+			All values are 2006, so the usage of space partitioning is redundant.				
 			
 		ii. Data Definition Language (DDL) query:
 			
+			There was tried the following query:
+				CREATE INDEX phone_address_index ON address USING spgist (phone);
+			However, it did not give any improvement as the redundant SP-GiST index cannot yield better than the HashAggregate algorithm performance. 
+			Note that the usage of SP-GiST index for the columns 'rating', 'length', 'rental_duration', 'release_year' of the table 'film' causes errors.			
 			
-		
 		iii. Analysis of cost before and after the creation of the index:
 			
+			There is no improvements in terms of cost function.
 			
-
-REQUIREMENTS:
-
-i. Targeted table and attributes
-	Describe where the index was created, and justification of why you choose them - this should include aspects like the datatype 
-	of the column, common values, range, etc. (At least 70 characters) (2 scores)
-ii. DDL query (2 scores)
-iii. Cost before and after the creation of the index (1 score) 
-Write the absolute values and the percentage of improvement.
+							Before index creation	After index creation	Improvement (absolute value)	Improvement (percentage)
+			Estimated startup cost		7747.19 		7747.19 		0.00				0.00
+			Estimated total cost		7747.20 		7747.20 		0.00				0.00
 
 
 
