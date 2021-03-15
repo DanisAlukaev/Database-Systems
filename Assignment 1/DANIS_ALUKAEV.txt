@@ -118,7 +118,7 @@ p.rental_id (ref. Query 1, Assignment 1).
 		
 			The first index was created on table 'customer'. Specifically, it was created on the 'active' column. This column is of integer data type.
 			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'active' attribute: active = 1 (ref. Query 2, Assignment 1).
-			The values are unique, so there will be no collisions. Accordingly, the data is acceptable for Hash index and might affect the performance for equality comparisons.
+			The values poorly distributed, so there will be large number of collisions.
 					
 			The second index was created on table 'customer'. Specifically, it was created on the 'customer_id' column. This column is of integer data type.
 			Apparently, the index creation is aimed at optimization of is equal operation performed on the 'customer_id' attribute: r2.customer_id = 
@@ -244,7 +244,7 @@ p.rental_id (ref. Query 1, Assignment 1).
 			
 			There was tried the following query:
 				CREATE INDEX phone_address_index ON address USING spgist (phone);
-			However, it did not give any improvement as the sorting of data in lexicographical order cannot be improved by space partitioning utilized in SP-GiST index. 
+			However, it did not give any improvement as the space partitioning utilized in SP-GiST index cannot affect the sorting of data in lexicographical order. 
 			Note that the usage of SP-GiST index for the columns 'rating', 'length', 'rental_duration', 'release_year' of the table 'film' causes errors.			
 			
 		iii. Analysis of cost before and after the creation of the index:
