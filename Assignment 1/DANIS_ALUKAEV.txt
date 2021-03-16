@@ -14,8 +14,8 @@ Student ID:	19BS551
 			The index was created on table 'payment'. Specifically, it was created on the 'amount' column. This column is of numeric(5, 2) data type, where 5 is precision of the number
 			and 2 is its scale. 
 			Apparently, the index creation is aimed at optimization of less operation performed on the 'amount' attribute: p2.amount<p.amount (ref. Query 1, Assignment 1).
-			The values are from 0 to 11.99, so they increase in steps of 0.99. Accordingly, the data is acceptable for B-Tree and might affect the performnce. 
-			Since it is possible to sort records by the values of 'amount' attribute, the B-Tree index is appropriate and gives a performance improvement. 
+			The values are from 0 to 11.99, so they increase in steps of 0.99. Accordingly, the data is acceptable for B-Tree and might affect the performance. 
+			Since it is possible to sort records by the values of 'amount' attribute, the B-Tree index is appropriate and gives a performance improvement for less comparisons. 
 			
 		ii. Data Definition Language (DDL) query:
 			
@@ -32,9 +32,10 @@ Student ID:	19BS551
 		i. Targeted table and attributes:
 		
 			The index was created on table 'rental'. Specifically, it was created on the 'last_update' column. This column is of timestamp data type.
-			Apparently, the index creation is aimed at optimization of greater operation performed on the 'last_update' attribute: r2.last_update > r1.last_update (ref. Query 2, Assignment 1).
+			Apparently, the index creation is aimed at optimization of greater operation performed on the 'last_update' attribute: r2.last_update > r1.last_update (ref. Query 2,
+			Assignment 1).
 			The values are poorly distributed and 16042 out of 16044 of records have a value of 2006-02-16 02:30:53.000000. However, it is still possible to sort records by the values
-			of 'last_update' attribute, and, therefore, the B-Tree index is appropriate and gives a performance improvement.
+			of 'last_update' attribute, and, therefore, the B-Tree index is appropriate and gives a performance improvement for greater comparisons.
 			
 		ii. Data Definition Language (DDL) query:
 			
@@ -190,7 +191,7 @@ p.rental_id (ref. Query 1, Assignment 1).
 		
 		i. Targeted table and attributes:
 			The SP-GiST index is not applicable for integer attributes. Consequently, the attempt to apply it to attribute 'rental_id' of tables 'rental', 'payment' and to attribute
-			amount of table payment causes an error. Therefore, SP-GiST cannot be applied to the query Q1. 			
+			amount of table 'payment' causes an error. Therefore, SP-GiST cannot be applied to the query Q1. 			
 			
 		ii. Data Definition Language (DDL) query:
 			
@@ -222,7 +223,7 @@ p.rental_id (ref. Query 1, Assignment 1).
 				CREATE INDEX customer_id_rental_index ON rental USING spgist (customer_id);
 				CREATE INDEX rental_id_payment_index ON payment USING spgist (rental_id);
 				CREATE INDEX rental_id_rental_index ON rental USING spgist (rental_id);
-				CREATE INDEX last_updated_rental_index ON rental USING hash (last_update);
+				CREATE INDEX last_updated_rental_index ON rental USING spgist (last_update);
 		
 		iii. Analysis of cost before and after the creation of the index:
 			
@@ -245,6 +246,7 @@ p.rental_id (ref. Query 1, Assignment 1).
 			There was tried the following query:
 				CREATE INDEX phone_address_index ON address USING spgist (phone);
 			However, it did not give any improvement as the space partitioning utilized in SP-GiST index cannot affect the sorting of data in lexicographical order. 
+			Optimizer found that the Hash Aggregate is efficient enough, so usage of the SP-GiST is redundant.
 			Note that the usage of SP-GiST index for the columns 'rating', 'length', 'rental_duration', 'release_year' of the table 'film' causes errors.			
 			
 		iii. Analysis of cost before and after the creation of the index:
