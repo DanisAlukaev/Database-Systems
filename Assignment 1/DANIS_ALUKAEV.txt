@@ -246,7 +246,7 @@ p.rental_id (ref. Query 1, Assignment 1).
 			There was tried the following query:
 				CREATE INDEX phone_address_index ON address USING spgist (phone);
 			However, it did not give any improvement as the space partitioning utilized in SP-GiST index cannot affect the sorting of data in lexicographical order. 
-			Optimizer found that the Hash Aggregate is efficient enough, so usage of the SP-GiST is redundant.
+			Optimizer found that the Sequential Scan is sufficient and usage of the SP-GiST does not influence the performance much.
 			Note that the usage of SP-GiST index for the columns 'rating', 'length', 'rental_duration', 'release_year' of the table 'film' causes errors.			
 			
 		iii. Analysis of cost before and after the creation of the index:
