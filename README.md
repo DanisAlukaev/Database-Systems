@@ -6,4 +6,5 @@ Week 3: Relational Algebra, regular expressions in PostgreSQL, usage of JOIN que
 Week 5: Usage of B-Tree, Hash, GiST, GIN indices. \
 Week 6: Query optimization using indices. \
 Week 7: Function creation in plpgsql. \
+Week 8: Getting started with Transactions. \
 Assignment 1: Creation of indices.
