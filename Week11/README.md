@@ -69,10 +69,13 @@ Query output: [Query 5.json](outputs/query5.json)
 #### Query 6.
 Find the restaurant Id, name, borough and cuisine for those restaurants which
 belong to the borough Staten Island or Queens or Bronx or Brooklyn.  \
-Filter query body: ` `. \
-Project query body: ` `. \
+Filter query body: `{borough: {$in: ["Staten Island", "Queens", "Bronx", "Brooklyn"]}}`. \
+Project query body: `{_id: 1, name: 1, borough: 1, cuisine: 1}`. \
 Query: 
 ```
-
+db.restaurants.find(
+  {borough: {$in: [ 'Staten Island', 'Queens', 'Bronx', 'Brooklyn']}},
+  {_id: 1,name: 1,borough: 1,cuisine: 1}
+)
 ```
 Query output: [Query 6.json](outputs/query6.json)
