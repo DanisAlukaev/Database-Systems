@@ -7,4 +7,5 @@ Week 5: Usage of B-Tree, Hash, GiST, GIN indices. \
 Week 6: Query optimization using indices. \
 Week 7: Function creation in plpgsql. \
 Week 8: Getting started with Transactions. \
-Assignment 1: Creation of indices.
+Assignment 1: Creation of indices. \
+Week 11: Find queries in MongoDB.
