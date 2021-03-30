@@ -2,7 +2,7 @@
 
 #### Query 1.
 Find all the documents in the collection restaurants. \
-Find query body: `{}`. \
+Filter query body: `{}`. \
 Query: 
 ```
 db.restaurants.find(
@@ -14,11 +14,13 @@ Query output: [Query 1.json](outputs/query1.json)
 #### Query 2.
 Find the fields restaurant_id, name, borough and cuisine for all the documents in
 the collection restaurant. \
-Find query body: `{}`. \
+Filter query body: `{}`. \
+Project query body: `{restaurant_id: 1, name: 1, borough: 1, cuisine: 1}`. \
 Query: 
 ```
 db.restaurants.find(
-  undefined
+  undefined,
+  {restaurant_id: 1,name: 1,borough: 1,cuisine: 1}
 )
 ```
 At export stage there were selected fields `restaurant_id`, `name`, `borough` and `cuisine`. \
@@ -26,7 +28,7 @@ Query output: [Query 2.json](outputs/query2.json)
 
 #### Query 3.
 Find the first 5 restaurant which is in the borough Bronx. \
-Find query body: `{borough: "Bronx"}`. Limit is set to 5. \
+Filter query body: `{borough: "Bronx"}`. Limit is set to 5. \
 Query: 
 ```
 db.restaurants.find(
@@ -35,3 +37,17 @@ db.restaurants.find(
 ```
 Query output: [Query 3.json](outputs/query3.json)
 
+#### Query 3.
+Find the restaurant Id, name, borough and cuisine for those restaurants which
+prepared dish except 'American' and 'Chinese' or restaurant's name begins with
+letter 'Wil’. \
+Filter query body: `{$or: [{cuisine : {$nin : ["American ", "Chinese"]}}, {name: /Wil*/}]}`. \
+Project query body: `{restaurant_id: 1, name: 1, borough: 1, cuisine: 1}`. \
+Query: 
+```
+db.restaurants.find(
+  {$or: [{ cuisine: { $nin: [ 'American ', 'Chinese' ] }},{ name: RegExp('Wil*')}]},
+  {restaurant_id: 1,name: 1,borough: 1,cuisine: 1}
+)
+```
+Query output: [Query 4.json](outputs/query4.json)
