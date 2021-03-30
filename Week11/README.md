@@ -41,12 +41,12 @@ Query output: [Query 3.json](outputs/query3.json)
 Find the restaurant Id, name, borough and cuisine for those restaurants which
 prepared dish except 'American' and 'Chinese' or restaurant's name begins with
 letter 'Wil’. \
-Filter query body: `{$or: [{cuisine : {$nin : ["American ", "Chinese"]}}, {name: /Wil*/}]}`. \
+Filter query body: `{$or: [{cuisine : {$nin : ["American ", "Chinese"]}}, {name: /Wil.*/}]}`. \
 Project query body: `{restaurant_id: 1, name: 1, borough: 1, cuisine: 1}`. \
 Query: 
 ```
 db.restaurants.find(
-  {$or: [{ cuisine: { $nin: [ 'American ', 'Chinese' ] }},{ name: RegExp('Wil*')}]},
+  {$or: [{ cuisine: { $nin: [ 'American ', 'Chinese' ] }},{ name: RegExp('Wil.*')}]},
   {restaurant_id: 1,name: 1,borough: 1,cuisine: 1}
 )
 ```
@@ -55,11 +55,14 @@ Query output: [Query 4.json](outputs/query4.json)
 #### Query 5.
 Find the restaurant name, borough, longitude and attitude and cuisine for those
 restaurants which contains 'mon' as three letters somewhere in its name.  \
-Filter query body: ` `. \
-Project query body: ` `. \
+Filter query body: `{name: /.*mon.*/}`. \
+Project query body: `{name: 1, borough: 1, "address.coord": 1, cuisine: 1}`. \
 Query: 
 ```
-
+db.restaurants.find(
+  {name: RegExp('.*mon.*')},
+  {name: 1,borough: 1,'address.coord': 1,cuisine: 1}
+)
 ```
 Query output: [Query 5.json](outputs/query5.json)
 
