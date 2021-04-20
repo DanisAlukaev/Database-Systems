@@ -10,4 +10,5 @@ Week 8: Getting started with Transactions. \
 Assignment 1: Creation of indices. \
 Week 11: Find queries in MongoDB. \
 Week 12. Transaction isolation & concurrency. \
-Week 13. Getting started with graphql neo4j.
+Week 13. Getting started with graphql neo4j. \
+Week 14. Getting started with Redis.
